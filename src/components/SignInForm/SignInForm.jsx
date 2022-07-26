@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import {
   signInWithGooglePopup,
-  createUserDocFromAuth,
   signInAuthUserWithEmailPassword,
 } from '../../utils/firebase/firebase.utils'
 import FormInput from '../FormInput/FormInput'
@@ -27,15 +26,18 @@ function SignIn() {
     e.preventDefault()
     try {
       const response = await signInAuthUserWithEmailPassword(email, password)
-      setFormData(defaultFormData)
+      if (response) {
+        setFormData(defaultFormData)
+      } else {
+        alert('Error logging in')
+      }
     } catch (error) {
       alert('Incorrect email/password combination')
     }
   }
 
   const logGooglePopupUser = async () => {
-    const { user } = await signInWithGooglePopup()
-    await createUserDocFromAuth(user)
+    await signInWithGooglePopup()
   }
 
   return (
