@@ -7,12 +7,12 @@ import './CartIcon.scss'
 
 function CartIcon() {
 
-  const { isCartOpen, setIsCartOpen } = useContext(CartContext)
+  const { isCartOpen, setIsCartOpen, cartCount } = useContext(CartContext)
 
   return (
     <div className='cart-icon-container' onClick={() => setIsCartOpen(!isCartOpen)}>
       <ShoppingIcon className='shopping-icon' />
-      <span className='item-count'>10</span>
+      <span className='item-count'>{cartCount}</span>
     </div>
   )
 }
