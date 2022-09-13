@@ -1,15 +1,15 @@
 import SignUpForm from '../../components/SignUpForm/SignUpForm'
 import SignInForm from '../../components/SignInForm/SignInForm'
 
-import './Authentication.scss'
+import { AuthenticationContainer } from './AuthenticationStyle'
 
 function SignIn() {
 
   return (
-    <div className='authentication-container'>
+    <AuthenticationContainer>
       <SignInForm />
       <SignUpForm />
-    </div>
+    </AuthenticationContainer>
   )
 
 }

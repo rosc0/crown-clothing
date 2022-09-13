@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { Outlet, Link } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 
 import { signOutUser } from '../../utils/firebase/firebase.utils'
 
@@ -10,7 +10,7 @@ import { CartContext } from '../../context/CartContext'
 
 import { ReactComponent as Logo } from '../../assets/crown.svg'
 
-import './Navigation.scss'
+import { NavigationContainer, LogoContainer, NavLinks, NavLink } from './NavigationStyle'
 
 function Navigation() {
 
@@ -19,21 +19,21 @@ function Navigation() {
 
   return (
     <>
-      <div className='navigation'>
-        <Link to='/' className='logo-container'>
+      <NavigationContainer>
+        <LogoContainer to='/'>
           <Logo />
-        </Link>        
-        <div className='nav-links-container'>
-          <Link to='/shop' className='nav-link'>SHOP</Link>   
+        </LogoContainer>        
+        <NavLinks>
+          <NavLink to='/shop'>SHOP</NavLink>   
           {currentUser ? (
-            <span className='nav-link' onClick={signOutUser}>SIGN OUT</span>
+            <NavLink as='span' onClick={signOutUser}>SIGN OUT</NavLink>
           ) : (
-            <Link to='/auth' className='nav-link'>SIGN IN</Link>                        
+            <NavLink to='/auth'>SIGN IN</NavLink>                        
           )}      
           <CartIcon />             
-        </div> 
+        </NavLinks> 
         { isCartOpen && <CartDropdown /> }        
-      </div>
+      </NavigationContainer>
       <Outlet />
     </>
   )
