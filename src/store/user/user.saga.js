@@ -7,7 +7,7 @@ import {
   signInAuthUserWithEmailPassword,
 } from '../../utils/firebase/firebase.utils'
 
-import USER_ACTION_TYPES from './user.types'
+import { USER_ACTION_TYPES } from './user.types';
 import { signInSuccess, signInFailed } from './user.action'
 
 export function* getSnapshotFromUserAuth(userAuth, additionalDetails) {
@@ -25,8 +25,8 @@ export function* getSnapshotFromUserAuth(userAuth, additionalDetails) {
 
 export function* signInWithGoogle() {
   try {
-    //const { user } = yield call(signInWithGooglePopup)
-    //yield call(getSnapshotFromUserAuth, user)
+    const { user } = yield call(signInWithGooglePopup)
+    yield call(getSnapshotFromUserAuth, user)
   } catch (error) {
     yield put(signInFailed(error))
   }
@@ -66,7 +66,7 @@ export function* onEmailSignInStart() {
 export function* userSagas() {
   yield all([
     call(onCheckUserSession), 
-    call(signInWithGoogle),
+    call(onGoogleSignInStart),
     call(onEmailSignInStart)
   ])
 }
