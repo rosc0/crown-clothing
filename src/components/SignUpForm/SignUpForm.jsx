@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { createAuthUserWithEmailPassword, createUserDocFromAuth } from '../../utils/firebase/firebase.utils'
 import FormInput from '../FormInput/FormInput'
 import Button from '../Button/Button'
 
