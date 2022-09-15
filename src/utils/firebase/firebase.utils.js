@@ -53,19 +53,13 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
   await batch.commit()
 }
 
-export const getCategoriesAndDocuments = async () => {
-  const collectionRef = collection(db, 'categories')
+export const getCategoriesAndDocuments = async (type) => {
+  const collectionRef = collection(db, type)
   const q = query(collectionRef)
 
   const querySnapshot = await getDocs(q)
-
-  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
-    const { title, items } = docSnapshot.data()
-    acc[title.toLowerCase()] = items
-    return acc
-  }, {})
-
-  return categoryMap
+  
+  return querySnapshot.docs.map(docSnapshot => docSnapshot.data())
 }
 
 // Create a new user
@@ -91,6 +85,8 @@ export const createUserDocFromAuth = async (userAuth, additionalInformation = {}
     }
   }
 
+  console.log('userDocRef', userDocRef)
+
   return userDocRef
 }
 
@@ -110,3 +106,16 @@ export const signInAuthUserWithEmailPassword = async (email, password) => {
 export const signOutUser = async () => await signOut(auth)
 
 export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback)
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = (onAuthStateChanged)(
+      auth,
+      (userAuth) => {
+        unsubscribe()
+        resolve(userAuth)
+      },
+      reject
+    )
+  })
+}
