@@ -14,7 +14,7 @@ import {
   getDoc,
   setDoc,
   collection,
-  writeBatch,
+  // writeBatch,
   query,
   getDocs,
 } from 'firebase/firestore'
@@ -41,17 +41,17 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider)
 export const db = getFirestore()
 
 // add collection
-export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
-  const collectionRef = collection(db, collectionKey)
-  const batch = writeBatch(db)
+// export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+//   const collectionRef = collection(db, collectionKey)
+//   const batch = writeBatch(db)
 
-  objectsToAdd.forEach((object) => {
-    const docRef = doc(collectionRef, object.title.toLowerCase())
-    batch.set(docRef, object)
-  })
+//   objectsToAdd.forEach((object) => {
+//     const docRef = doc(collectionRef, object.title.toLowerCase())
+//     batch.set(docRef, object)
+//   })
 
-  await batch.commit()
-}
+//   await batch.commit()
+// }
 
 export const getCategoriesAndDocuments = async (type) => {
   const collectionRef = collection(db, type)
@@ -63,7 +63,7 @@ export const getCategoriesAndDocuments = async (type) => {
 }
 
 // Create a new user
-export const createUserDocFromAuth = async (userAuth, additionalInformation = {}) => {
+export const createUserDocFromAuth = async (userAuth, additionalDetails = {}) => {
   if (!userAuth) return
 
   const userDocRef = doc(db, 'users', userAuth.uid)
@@ -78,16 +78,14 @@ export const createUserDocFromAuth = async (userAuth, additionalInformation = {}
         displayName,
         email,
         createdAt,
-        ...additionalInformation,
+        ...additionalDetails,
       })
     } catch (error) {
       console.error('Error creating user!', error)
     }
   }
 
-  console.log('userDocRef', userDocRef)
-
-  return userDocRef
+  return userSnapshot
 }
 
 // create user with email
@@ -105,7 +103,7 @@ export const signInAuthUserWithEmailPassword = async (email, password) => {
 
 export const signOutUser = async () => await signOut(auth)
 
-export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback)
+// export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback)
 
 export const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
