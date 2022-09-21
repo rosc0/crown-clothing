@@ -1,11 +1,15 @@
-import { FC } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import { FC, memo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { selectCartItems } from '../../store/cart/cart.selector'
-import { addToQuantity, subtractFromQuantity, removeCartItem } from '../../store/cart/cart.action'
+import { selectCartItems } from '../../store/cart/cart.selector';
+import {
+  addToQuantity,
+  subtractFromQuantity,
+  removeCartItem,
+} from '../../store/cart/cart.action';
 import { CartItem } from '../../store/cart/cart.types';
 
-import { 
+import {
   CheckoutItemContainer,
   ImageContainer,
   Name,
@@ -14,20 +18,20 @@ import {
   Value,
   Price,
   RemoveButton,
- } from './CheckoutItemStyle'
+} from './CheckoutItemStyle';
 
 type CheckoutItemProps = {
   checkoutItem: CartItem;
-}
+};
 
-const CheckoutItem: FC<CheckoutItemProps> = ({ checkoutItem }) => {
-  const dispatch = useDispatch()
-  const cartItems = useSelector(selectCartItems)
-  const { id, name, imageUrl, quantity, price } = checkoutItem
+const CheckoutItem: FC<CheckoutItemProps> = memo(({ checkoutItem }) => {
+  const dispatch = useDispatch();
+  const cartItems = useSelector(selectCartItems);
+  const { id, name, imageUrl, quantity, price } = checkoutItem;
 
-  const addQuantity = (productId: number) => dispatch(addToQuantity(cartItems, productId))
-  const subtractQuantity = (productId: number) => dispatch(subtractFromQuantity(cartItems, productId))
-  const removeItem = (productId: number) => dispatch(removeCartItem(cartItems, productId))
+  const addQuantity = (productId: number) => dispatch(addToQuantity(cartItems, productId));
+  const subtractQuantity = (productId: number) => dispatch(subtractFromQuantity(cartItems, productId));
+  const removeItem = (productId: number) => dispatch(removeCartItem(cartItems, productId));
 
   return (
     <CheckoutItemContainer>
@@ -43,7 +47,7 @@ const CheckoutItem: FC<CheckoutItemProps> = ({ checkoutItem }) => {
       <Price>${price}</Price>
       <RemoveButton onClick={() => removeItem(id)}>&#10005;</RemoveButton>
     </CheckoutItemContainer>
-  )
-}
+  );
+});
 
-export default CheckoutItem
+export default CheckoutItem;
